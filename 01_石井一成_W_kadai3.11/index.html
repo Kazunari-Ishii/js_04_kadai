@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>アイヌ語単語帳</title>
+  <link rel='stylesheet' href='css/reset.css'>
+  <link rel='stylesheet' href='css/style.css'>
+  <link rel="stylesheet" type="text/css" href="http://mplus-fonts.sourceforge.jp/webfonts/general-j/mplus_webfonts.css">
+</head>
+
+<body>
+  <header>
+    <h1>アイヌ語単語帳</h1>
+  </header>
+
+  <main>
+<!-- スタンプ画像 -->
+    <div class="stamp">
+      <img class="sermon" src="img/il04a-500.png" alt="" style="display: none;">
+      <img class="sermon2" src="img/il04a-500.png" alt="" style="display: none;">
+      <img class="sermon3" src="img/il04a-500.png" alt="" style="display: none;">
+      <img class="sermon4" src="img/il04a-500.png" alt="" style="display: none;">
+      <img class="sermon5" src="img/il04a-500.png" alt="" style="display: none;">
+      <img class="orca" src="img/il06a-500.png" alt="" style="display: none;">
+      <img class="bear" src="img/il09.png" alt="" style="display: none;">
+    </div>
+
+<!-- 入力フォーム -->
+    <div class="f-container">
+      <div class="cp_iptxt">
+        <label class="ef"></label>
+        <input type="text" id="ainugo" placeholder="ここにアイヌ語を入力して下さい。">
+      </div>
+
+      <div class="cp_iptxt">
+        <label class="ef"></label>
+        <input type="text" id="meaning" placeholder="ここに言葉の意味を入力して下さい。">
+      </div>
+
+      <div>
+        <!-- 登録ボタン -->
+        <button id="send" style="width:100px;height:50px;cursor:pointer">登録</button>
+      </div>
+    </div>
+
+  <!-- 見出し -->
+    <div class="f-container">
+      <p id="midashi">アイヌ語</p>
+      <p id="midashi">意味</p>
+    </div>
+
+  <!-- 隠したり、表示したりするボタン -->
+    <div class="f-container">
+      <button id="hide" style="width:100px;height:50px;cursor:pointer">隠す</button>
+      <button id="show" style="width:100px;height:50px;cursor:pointer">表示</button>
+      <button id="hide2" style="width:100px;height:50px;cursor:pointer">隠す</button>
+      <button id="show2" style="width:100px;height:50px;cursor:pointer">表示</button>
+    </div>
+
+  <!-- 保存されたデータが表示される箇所 -->
+    <div class="f-container2">
+      <div class="fc">
+        <div id="output"></div>
+      </div>
+      <div class="fc2">
+        <div id="output2"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <button id="delete" style="width:100px;height:50px;cursor:pointer">削除</button>
+  </footer>
+  <!--/ ブラウザの画面に見える内容 -->
+
+  <!-- JQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!--** 以下Firebase **-->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <!-- ここにfirebaseのscriptを貼り付ける -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: "",
+    databaseURL: ""
+  };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    //firebaseのデーターベース（保存させる場所）を使いますよと言うjsのコードを貼り付ける
+    // xxxxxスクリプトを貼り付ける
+    const newPostRef = firebase.database().ref();
+
+    // ここから下にjqueryの処理を書いて練習します
+    // 送信ボタンをクリックされたら次の処理をする
+    $("#send").on("click", function () {
+      // データを登録で送る
+      newPostRef.push({
+        //名前
+        ainugo: $("#ainugo").val(),
+        //テキストエリア
+        meaning: $("#meaning").val(),
+      })
+      // 文字を空にする
+      $("#ainugo").val(""); //空にする
+      $("#meaning").val(""); //空にする
+    });
+
+    // 受信処理
+    newPostRef.on("child_added", function (data) {
+      //ここに保存されたデータが全て入ってくる
+      // function (data)のdataにfirebaseのデータが入ってくる
+      let v = data.val();
+      //console.logで受信=firebaseに登録されている中身を確認しよう！
+      console.log(v,'firebaseのデータが入ってきます');
+      //テンプレートリテラル `` を活用して変数にhtmlを埋め込もう！
+      let str = `<p>${v.ainugo}</p>`;
+      let str2 = `<p>${v.meaning}</p>`;
+      // ここでデータをhtmlに埋め込む prependには変数を埋め込もう！
+      $("#output").prepend(str);
+      $("#output2").prepend(str2);
+    });
+
+    $("#delete").on("click", function(){
+      $("#output").empty();
+      $("#output2").empty();
+    });
+
+  </script>
+
+  <script>
+    // 隠したり、表示したりするボタン
+    $("#hide").on("click",function(){
+      $("#output").hide();
+    })
+    $("#show").on("click",function(){
+      $("#output").show();
+    })
+    $("#hide2").on("click",function(){
+      $("#output2").hide();
+    })
+    $("#show2").on("click",function(){
+      $("#output2").show();
+    })
+  </script>
+
+  <script>
+//スタンプが増える仕組み
+  let i = 0;
+
+  $("#send").on("click",function(){
+    i++;
+        if(i == 1){
+            $(".sermon").fadeIn();
+        }else if(i == 2){
+            $(".sermon2").fadeIn();
+        }else if(i == 3){
+            $(".sermon3").fadeIn();
+        }else if(i == 4){
+            $(".sermon4").fadeIn();
+        }else if(i == 5){
+            $(".sermon5").fadeIn();
+            $(".sermon").fadeOut();
+            $(".sermon2").fadeOut();
+            $(".sermon3").fadeOut();
+            $(".sermon4").fadeOut();
+            $(".sermon5").fadeOut();
+            $(".orca").fadeIn(2000);
+        }else if(i == 6){
+            $(".sermon").fadeIn();
+        }else if(i == 7){
+            $(".sermon2").fadeIn();
+        }else if(i == 8){
+            $(".sermon3").fadeIn();
+        }else if(i == 9){
+            $(".sermon4").fadeIn();
+        }else if(i == 10){
+            $(".sermon5").fadeIn();
+            $(".sermon").fadeOut();
+            $(".sermon2").fadeOut();
+            $(".sermon3").fadeOut();
+            $(".sermon4").fadeOut();
+            $(".sermon5").fadeOut();
+            $(".orca").fadeOut();
+            $(".bear").fadeIn(2000);
+        }
+  });
+  </script>
+
+</body>
+
+</html>

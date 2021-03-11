@@ -1,0 +1,116 @@
+body {
+  margin: 1em;
+  padding: 1em;
+  height: 500px;
+  background-image: url(../img/04-b-150.png);
+  font-size: 32px;
+  font-family: "M+ Type-1 (general-j) Black";
+}
+
+header {
+  padding: 1em;
+  background-image: url(../img/11-g-150.png);
+  border: 10px ridge darkgreen;
+  text-align: center;
+  color: black;
+  letter-spacing: 1em;
+  border-radius: 5%;
+  text-shadow: 2px 2px 2px white;
+}
+
+main {
+  padding: 1em;
+  letter-spacing: 5px;
+}
+
+.stamp {
+  height: 150px;
+  text-align: center;
+  background-color: cornsilk;
+  border: 2px solid black;
+  border-radius: 30%;
+}
+
+.f-container {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-around;
+}
+
+.f-container2 {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-around;
+}
+
+.cp_iptxt input[type="text"] {
+  font: 25px/25px sans-serif;
+  box-sizing: border-box;
+  width: 150%;
+  letter-spacing: 1px;
+  color: #aaaaaa;
+  border: 5px solid #1b2538;
+  border-radius: 4px;
+}
+
+#midashi {
+  padding: 0.5em;
+  border: 5px solid black;
+  background-color: salmon;
+  border-radius: 10%;
+}
+
+#output {
+  width: fit-content;
+  height: fit-content;
+  line-height: 80px;
+  border: 1px solid silver;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  box-shadow: gray 2px 2px;
+  background: white;
+  float: left;
+  cursor: pointer;
+}
+
+#output2 {
+  width: fit-content;
+  height: fit-content;
+  line-height: 80px;
+  border: 1px solid silver;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  box-shadow: gray 2px 2px;
+  background: white;
+  float: left;
+  cursor: pointer;
+}
+
+footer {
+  padding: 1em;
+  background-image: url(../img/08-f-150.png);
+  border: 10px outset darkblue;
+  text-align: center;
+  color: #fff;
+  font-size: 32px;
+  letter-spacing: 1em;
+  border-radius: 5%;
+}
+
+#send,
+#hide,
+#hide2,
+#show,
+#show2,
+#delete {
+  padding-left: 20px;
+  letter-spacing: 1em;
+  border-radius: 50%;
+  font-size: 0.5em;
+  box-shadow: 2px 2px;
+  background-color: lightblue;
+}
